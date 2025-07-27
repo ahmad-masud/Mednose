@@ -50,6 +50,7 @@ if st.button("Predict"):
 
         # List predictions
         for disease, confidence in top_diseases:
+            st.markdown("---")
             st.write(f"**{disease}** — {confidence * 100:.1f}%")
 
             # Match precautions
@@ -60,7 +61,6 @@ if st.button("Predict"):
                     val = match.iloc[0].get(col)
                     if pd.notna(val):
                         st.write(f"- {val}")
-            st.markdown("---")
 
 # --- Disclaimer ---
 st.markdown("---")

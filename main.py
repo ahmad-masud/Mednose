@@ -62,10 +62,6 @@ if st.button("Predict"):
                         st.write(f"- {val}")
             st.markdown("---")
 
-        # Show used symptoms
-        st.markdown("### 🧾 Symptoms Used for Prediction")
-        st.markdown(", ".join(selected_symptoms))
-
 # --- Disclaimer ---
 st.markdown("---")
 st.caption("⚠️ This is an AI-powered tool for educational purposes only and does not replace medical advice. Please consult a healthcare professional.")

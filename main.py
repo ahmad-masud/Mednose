@@ -25,6 +25,7 @@ all_symptoms = sorted(mlb.classes_)
 
 # --- Symptom Input ---
 selected_symptoms = st.multiselect("Select symptoms", options=all_symptoms)
+top_k = st.slider("Number of top predictions to display", min_value=1, max_value=10, value=3)
 
 # --- Prediction Logic ---
 if st.button("Predict"):
@@ -33,8 +34,8 @@ if st.button("Predict"):
     else:
         st.success("Prediction complete!")
 
-        # Use shared prediction logic
-        top_diseases, unknown = predict_disease(clf, mlb, selected_symptoms)
+        # Predict with user-selected top_k
+        top_diseases, unknown = predict_disease(clf, mlb, selected_symptoms, top_k=top_k)
 
         if unknown:
             st.warning(f"Unknown symptoms ignored: {', '.join(unknown)}")
@@ -43,14 +44,14 @@ if st.button("Predict"):
             st.error("No valid symptoms were entered. Please try again.")
         else:
             # Display bar chart
-            st.markdown("### 📊 Top 3 Predicted Diseases")
+            st.markdown(f"### 📊 Top {top_k} Predicted Diseases")
             fig, ax = plt.subplots()
             ax.barh([d[0] for d in reversed(top_diseases)],
                     [d[1] * 100 for d in reversed(top_diseases)])
             ax.set_xlabel("Confidence (%)")
             st.pyplot(fig)
 
-            # List predictions + precautions
+            # Show predictions + precautions
             for disease, confidence in top_diseases:
                 st.markdown("---")
                 st.write(f"**{disease}** — {confidence * 100:.1f}%")
